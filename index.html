@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>甲斐市シティプロモーション提案書</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: 静的な企画書を、物語を追うように体験できる縦スクロール型のSPAとして設計。1.ヒーローセクションでコンセプトを提示、2.「背景」で課題を明確化、3.「企画内容」をインタラクティブなタブで詳細化。特に第1段階では具体的な投稿案を提示し、予算をグラフで可視化、4.「コンテンツイメージ」で全体像を示し、5.「期待される効果」を動的な数字でインパクトを強調。この構造により、提案の全体像から具体案までをスムーズに理解でき、高い納得感と共感を生むことを目的とする。 -->
+    <!-- Visualization & Content Choices: 
+        - 企画内容: Goal=整理/情報提供/具体化, Method=インタラクティブなタブ+詳細カード+Chart.jsドーナツグラフ, Interaction=タブクリックで詳細表示とグラフ描画, Justification=複雑な3段階の計画を整理し、第1段階の具体案を提示することで説得力を高め、予算の内訳を視覚的に分かりやすく提示。
+        - コンテンツイメージ: Goal=情報提供/エンゲージメント, Method=アイコン付きカードグリッド, Interaction=ホバーエフェクト, Justification=単なるリストより視覚的に魅力的で、スキャンしやすい。
+        - 期待される効果: Goal=情報提供/印象付け, Method=JSによる動的な数値カウンター, Interaction=画面内に入ると数字がアニメーション, Justification=成果のポテンシャルを動的に見せることで、企画の成功イメージを強く印象付ける。
+        - Library/Method: Chart.js (Canvas) for charts. HTML/CSS/Unicode for icons.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .tab-active {
+            background-color: #A4907C;
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+        .tab-inactive {
+            background-color: #EAE3D9;
+            color: #8D7B68;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            border: 1px solid #EAE3D9;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .proposal-card-inner ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .proposal-card-inner ul li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .proposal-card-inner ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #A4907C;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#FDFBF8]/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200/50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-[#8D7B68]">甲斐市シティプロモーション</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#background" class="text-gray-600 hover:text-[#A4907C] transition-colors">提案背景</a>
+                <a href="#plan" class="text-gray-600 hover:text-[#A4907C] transition-colors">企画内容</a>
+                <a href="#contents" class="text-gray-600 hover:text-[#A4907C] transition-colors">コンテンツイメージ</a>
+                <a href="#impact" class="text-gray-600 hover:text-[#A4907C] transition-colors">期待される効果</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="h-[60vh] md:h-[80vh] flex items-center justify-center text-center bg-cover bg-center" style="background-image: url('https://placehold.co/1600x900/FDFBF8/A4907C');">
+            <div class="bg-black/20 p-8 rounded-lg">
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight drop-shadow-lg">
+                    忘れてかけていたことを<br>思い出せる場所、甲斐市
+                </h2>
+                <p class="mt-4 text-lg md:text-xl text-white/90 drop-shadow-md">都会の20-30代に届ける、"もう一つの故郷"としての魅力発信</p>
+            </div>
+        </section>
+
+        <section id="background" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h3 class="text-2xl md:text-3xl font-bold text-[#A4907C] mb-4">なぜ今、「日常」なのか？</h3>
+                <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed mb-12">
+                    多くの地方PRが画一的な観光情報の提供に留まる中、情報は飽和し、ターゲットの心に響きにくくなっています。彼らが本当に求めているのは、きらびやかな非日常ではなく、かつて感じたことのある温かさや、忘れかけていた心の安らぎではないでしょうか。
+                </p>
+                <div class="grid md:grid-cols-3 gap-8 text-left">
+                    <div class="p-6 rounded-lg border border-gray-200 bg-[#FDFBF8]">
+                        <div class="text-3xl mb-3 text-[#A4907C]">⚠️</div>
+                        <h4 class="font-bold text-lg mb-2">情報の飽和</h4>
+                        <p class="text-sm leading-6">似通った観光PRは、他の情報に埋もれ、記憶に残りません。</p>
+                    </div>
+                    <div class="p-6 rounded-lg border border-gray-200 bg-[#FDFBF8]">
+                        <div class="text-3xl mb-3 text-[#A4907C]">❤️</div>
+                        <h4 class="font-bold text-lg mb-2">心の繋がりへの希求</h4>
+                        <p class="text-sm leading-6">都会の生活で希薄になりがちな、人との温かい交流が求められています。</p>
+                    </div>
+                    <div class="p-6 rounded-lg border border-gray-200 bg-[#FDFBF8]">
+                        <div class="text-3xl mb-3 text-[#A4907C]">🏡</div>
+                        <h4 class="font-bold text-lg mb-2">"故郷"への憧れ</h4>
+                        <p class="text-sm leading-6">心の拠り所となる「帰る場所」としての価値が、今、見直されています。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="plan" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl md:text-3xl font-bold text-[#A4907C] mb-4">甲斐の古民家から始まる、3つのステップ</h3>
+                    <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
+                        本企画は、段階的に認知と共感を深めていく3ステップで展開します。下のタブをクリックして、各段階の詳細をご覧ください。
+                    </p>
+                </div>
+
+                <div class="max-w-5xl mx-auto">
+                    <div class="flex justify-center rounded-lg mb-8 shadow-sm">
+                        <button data-tab="1" class="tab-btn flex-1 p-3 md:p-4 text-sm md:text-base rounded-l-lg transition-colors tab-active">第1段階：投稿案（トライアル）</button>
+                        <button data-tab="2" class="tab-btn flex-1 p-3 md:p-4 text-sm md:text-base transition-colors tab-inactive">第2段階：体験の共有</button>
+                        <button data-tab="3" class="tab-btn flex-1 p-3 md:p-4 text-sm md:text-base rounded-r-lg transition-colors tab-inactive">第3段階：関係の深化</button>
+                    </div>
+
+                    <div id="tab-content" class="bg-white p-6 md:p-10 rounded-lg shadow-lg border border-gray-200/80">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contents" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl md:text-3xl font-bold text-[#A4907C] mb-4">どんな「日常」を届けるのか？</h3>
+                    <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
+                        発信するコンテンツは、甲斐市に流れるリアルな時間そのものです。タレントの目を通して、視聴者はこれらの日常を追体験します。
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="content-card p-6 rounded-lg text-center">
+                        <div class="text-4xl mb-4">🏮</div>
+                        <h4 class="font-bold text-lg mb-2">地元のお祭り</h4>
+                        <p class="text-sm leading-6">準備から参加し、地域の一員としての喜びを分かち合う。</p>
+                    </div>
+                    <div class="content-card p-6 rounded-lg text-center">
+                        <div class="text-4xl mb-4">🧑‍🌾</div>
+                        <h4 class="font-bold text-lg mb-2">農作業体験</h4>
+                        <p class="text-sm leading-6">土に触れ、食の大切さと収穫の達成感を学ぶ。</p>
+                    </div>
+                    <div class="content-card p-6 rounded-lg text-center">
+                        <div class="text-4xl mb-4">🌙</div>
+                        <h4 class="font-bold text-lg mb-2">夜の散歩</h4>
+                        <p class="text-sm leading-6">静寂の中で自分と向き合い、心の声に耳を澄ます。</p>
+                    </div>
+                    <div class="content-card p-6 rounded-lg text-center">
+                        <div class="text-4xl mb-4">💬</div>
+                        <h4 class="font-bold text-lg mb-2">地元の話題の人と交流</h4>
+                        <p class="text-sm leading-6">ユニークな活動をする地域のキーパーソンと出会い、新しい価値観に触れる。</p>
+                    </div>
+                    <div class="content-card p-6 rounded-lg text-center">
+                        <div class="text-4xl mb-4">👵</div>
+                        <h4 class="font-bold text-lg mb-2">おばあちゃんの昔話</h4>
+                        <p class="text-sm leading-6">土地の歴史や物語に触れ、時間の流れを感じる。</p>
+                    </div>
+                     <div class="content-card p-6 rounded-lg text-center">
+                        <div class="text-4xl mb-4">🏡</div>
+                        <h4 class="font-bold text-lg mb-2">古民家での暮らし</h4>
+                        <p class="text-sm leading-6">縁側でのんびりしたり、地元の食材で料理をしたりする丁寧な生活。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl md:text-3xl font-bold text-[#A4907C] mb-4">期待される効果</h3>
+                    <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
+                        本企画は、短期的な話題作りだけでなく、甲斐市の未来に繋がる持続的な価値を創造します。
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-lg text-center shadow-md border border-gray-200/80">
+                        <h4 class="font-bold text-lg mb-2">認知と差別化</h4>
+                        <p class="text-4xl font-bold text-[#A4907C] my-4" data-counter="1" data-target="1">No.1</p>
+                        <p class="text-sm leading-6">「日常」を切り口に、唯一無二のブランドイメージを確立。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg text-center shadow-md border border-gray-200/80">
+                        <h4 class="font-bold text-lg mb-2">関係人口の創出</h4>
+                        <p class="text-4xl font-bold text-[#A4907C] my-4"><span data-counter="1" data-target="50000">0</span>+</p>
+                        <p class="text-sm leading-6">共感で繋がる熱量の高いファンを獲得し、コミュニティを形成。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg text-center shadow-md border border-gray-200/80">
+                        <h4 class="font-bold text-lg mb-2">移住への態度変容</h4>
+                        <p class="text-4xl font-bold text-[#A4907C] my-4">🏡</p>
+                        <p class="text-sm leading-6">「住みたい場所」としてのポジティブなイメージを醸成。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg text-center shadow-md border border-gray-200/80">
+                        <h4 class="font-bold text-lg mb-2">市民の誇り醸成</h4>
+                        <p class="text-4xl font-bold text-[#A4907C] my-4">💖</p>
+                        <p class="text-sm leading-6">地域の価値を再発見し、街への愛着（シビックプライド）を育む。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#8D7B68] text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h4 class="text-xl md:text-2xl font-bold mb-4">貴市のかけがえのない日常が、未来の財産となる。</h4>
+            <p class="mb-6">弊社がその魅力を、日本中、そして未来の甲斐市民へと届ける架け橋となります。</p>
+            <p class="font-bold">株式会社ホリプロデジタルエンターテインメント</p>
+        </div>
+    </footer>
+
+    <script>
+        const tabData = {
+            '1': {
+                title: '第1段階：日常の共有（トライアル投稿案）',
+                purpose: '甲斐市の観光資源（自然・飲食・体験）を、湯上響花の「ギャル」キャラクターを通じて魅力的に発信し、SNSでの拡散を狙います。動画映え・ギャップ・エンタメ性を重視したInstagramリールを2本制作します。',
+                htmlContent: `
+                    <div class="grid md:grid-cols-2 gap-6 mt-6 text-left proposal-card-inner">
+                        <div class="border border-gray-200 p-4 rounded-lg">
+                            <h5 class="font-bold text-lg text-[#8D7B68] mb-2">1. ギャルの1人キャンプ飯</h5>
+                            <p class="text-sm text-gray-600 mb-3"><strong>コンセプト：</strong>ギャルが森の中で本気でキャンプ飯を作る企画。</p>
+                            <p class="text-sm font-semibold text-gray-700">ポイント：</p>
+                            <ul class="text-sm space-y-2 my-2">
+                                <li>キャンプブームと移住トレンドに絡めた自然体験。</li>
+                                <li>湯上響花が「目がテン」で培った野外スキルを活かし、甲斐市の食材（ワイン・牛肉）を料理に取り入れる。</li>
+                                <li>ゲストにせきぐちりさを迎えるなど、複数人での展開も可能。</li>
+                            </ul>
+                            <a href="https://www.instagram.com/reel/C2w05jYvJcK/" target="_blank" rel="noopener noreferrer" class="text-sm text-[#A4907C] font-bold hover:underline">参考動画を見る →</a>
+                        </div>
+                        <div class="border border-gray-200 p-4 rounded-lg">
+                            <h5 class="font-bold text-lg text-[#8D7B68] mb-2">2. レトロカフェで本領発揮するギャル</h5>
+                            <p class="text-sm text-gray-600 mb-3"><strong>コンセプト：</strong>芸術的な巨大パフェづくりに挑戦するギャル。</p>
+                            <p class="text-sm font-semibold text-gray-700">演出ポイント：</p>
+                            <ul class="text-sm space-y-2 my-2">
+                                <li>甲斐市「カフェルーチェ」にて、盛り盛りパフェの制作体験。</li>
+                                <li>ギャルらしい発想やセンスでどんなパフェになるのか予測不能な面白さ。</li>
+                                <li>地元の人との交流や、お店の魅力も自然に発信。</li>
+                                <li>おしゃれでレトロな店内映えも確保可能。</li>
+                            </ul>
+                             <a href="https://www.instagram.com/reel/C-7WJLzSMJ7/" target="_blank" rel="noopener noreferrer" class="text-sm text-[#A4907C] font-bold hover:underline">参考動画を見る →</a>
+                        </div>
+                    </div>
+                    <div class="mt-8 border-t pt-4">
+                        <div class="flex justify-between items-center">
+                            <dt class="text-sm font-semibold text-gray-600">ご予算</dt>
+                            <dd class="text-base text-right font-bold text-[#4A4A4A]">1,300,000円（税別）</dd>
+                        </div>
+                    </div>
+                `,
+            },
+            '2': {
+                title: '第2段階：体験の共有（オフラインイベント）',
+                purpose: 'オンラインでの共感を、リアルな熱量へと昇華させ、メディア露出による更なる話題化を図ります。',
+                details: [
+                    { label: '時期', value: '2025年11月（想定）' },
+                    { label: '場所', value: '東京都内 甲斐市PRイベント' },
+                    { label: '内容', value: 'タレントによるトークショー。古民家生活で感じたリアルな魅力を語ります。' }
+                ]
+            },
+            '3': {
+                title: '第3段階：関係の深化（年間発信）',
+                purpose: '甲斐市Instagramアカウントの本格的なグロースと、継続的な発信による「関係人口」のファン化を目指します。',
+                details: [
+                    { label: 'タレント', value: '湯上響花 + 複数のゲストタレント' },
+                    { label: '発信内容', value: '年間10本のInstagramリール動画（共同投稿）' },
+                    { label: 'ご予算', value: '5,000,000円（税別）' }
+                ],
+                chartData: {
+                    labels: ['年間タレント料', 'ゲスト出演料', '映像制作費', '諸経費'],
+                    data: [2000000, 1000000, 1500000, 500000]
+                }
+            }
+        };
+
+        const tabContentEl = document.getElementById('tab-content');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        let budgetChart = null;
+
+        function updateContent(tabId) {
+            const data = tabData[tabId];
+            if (!data) return;
+
+            let mainContentHtml = '';
+            if (data.htmlContent) {
+                mainContentHtml = data.htmlContent;
+            } else if (data.details) {
+                mainContentHtml = data.details.map(item => `
+                    <div class="flex justify-between items-center py-3 border-b border-gray-200/80">
+                        <dt class="text-sm font-semibold text-gray-600">${item.label}</dt>
+                        <dd class="text-sm md:text-base text-right text-[#4A4A4A]">${item.value}</dd>
+                    </div>
+                `).join('');
+                mainContentHtml = `<dl class="space-y-2">${mainContentHtml}</dl>`;
+            }
+
+            let chartHtml = '';
+            if (data.chartData) {
+                chartHtml = `
+                    <div class="mt-8">
+                        <h5 class="text-center font-bold text-gray-700 mb-4">ご予算内訳（想定）</h5>
+                        <div class="chart-container">
+                            <canvas id="budgetChart"></canvas>
+                        </div>
+                    </div>
+                `;
+            }
+
+            tabContentEl.innerHTML = `
+                <div class="fade-in">
+                    <h4 class="text-xl md:text-2xl font-bold text-[#A4907C] mb-3 text-center">${data.title}</h4>
+                    <p class="text-base leading-relaxed mb-6 text-center max-w-3xl mx-auto">${data.purpose}</p>
+                    ${mainContentHtml}
+                    ${chartHtml}
+                </div>
+            `;
+            
+            if (data.chartData) {
+                renderChart(data.chartData);
+            }
+        }
+
+        function renderChart(chartData) {
+            const ctx = document.getElementById('budgetChart');
+            if (!ctx) return;
+
+            if (budgetChart) {
+                budgetChart.destroy();
+            }
+
+            budgetChart = new Chart(ctx.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        data: chartData.data,
+                        backgroundColor: ['#A4907C', '#C8B6A6', '#EAE3D9', '#F1EFEF'],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#4A4A4A',
+                                font: {
+                                    family: "'Noto Sans JP', sans-serif"
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                tabBtns.forEach(b => {
+                    b.classList.remove('tab-active');
+                    b.classList.add('tab-inactive');
+                });
+                btn.classList.add('tab-active');
+                btn.classList.remove('tab-inactive');
+                updateContent(tabId);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateContent('1');
+        });
+
+        const counters = document.querySelectorAll('[data-counter]');
+        const speed = 200;
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const updateCount = () => {
+                        const target = +counter.getAttribute('data-target');
+                        const count = +counter.innerText.replace(/,/g, '');
+                        const inc = target / speed;
+
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + inc).toLocaleString();
+                            setTimeout(updateCount, 10);
+                        } else {
+                            counter.innerText = target.toLocaleString();
+                        }
+                    };
+                    updateCount();
+                    observer.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        counters.forEach(counter => {
+            if(counter.dataset.target > 1) { // Only observe counters with numbers
+                 observer.observe(counter);
+            }
+        });
+    </script>
+</body>
+</html>
