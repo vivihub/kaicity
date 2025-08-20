@@ -10,8 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutral Harmony -->
-    <!-- Application Structure Plan: 静的な企画書を、物語を追うように体験できる縦スクロール型のSPAとして設計。1.ヒーローセクションでコンセプトを提示、2.「背景」で課題を明確化、3.「企画内容」をインタラクティブなタブで詳細化。特に第1段階では具体的な投稿案を提示し、予算をグラフで可視化、4.「コンテンツイメージ」で全体像を示し、5.「期待される効果」を動的な数字でインパクトを強調。この構造により、提案の全体像から具体案までをスムーズに理解でき、高い納得感と共感を生むことを目的とする。 -->
+    <!-- Application Structure Plan: 静的な企画書を、物語を追うように体験できる縦スクロール型のSPAとして設計。1.ヒーローセクションでコンセプトを提示、2.「背景」で課題を明確化、3.「起用タレント」紹介で企画の核を提示、4.「企画内容」をインタラクティブなタブで詳細化。特に第1段階では具体的な投稿案を提示し、予算をグラフで可視化、5.「コンテンツイメージ」で全体像を示し、6.「期待される効果」を動的な数字でインパクトを強調。この構造により、提案の全体像から具体案までをスムーズに理解でき、高い納得感と共感を生むことを目的とする。 -->
     <!-- Visualization & Content Choices: 
+        - 起用タレント: Goal=情報提供/説得力向上, Method=画像とプロフィール、SNSデータを組み合わせたカードレイアウト, Interaction=SNSリンク, Justification=タレントの魅力と影響力を具体的に示し、企画の実現性を高める。
         - 企画内容: Goal=整理/情報提供/具体化, Method=インタラクティブなタブ+詳細カード+Chart.jsドーナツグラフ, Interaction=タブクリックで詳細表示とグラフ描画, Justification=複雑な3段階の計画を整理し、第1段階の具体案を提示することで説得力を高め、予算の内訳を視覚的に分かりやすく提示。
         - コンテンツイメージ: Goal=情報提供/エンゲージメント, Method=アイコン付きカードグリッド, Interaction=ホバーエフェクト, Justification=単なるリストより視覚的に魅力的で、スキャンしやすい。
         - 期待される効果: Goal=情報提供/印象付け, Method=JSによる動的な数値カウンター, Interaction=画面内に入ると数字がアニメーション, Justification=成果のポテンシャルを動的に見せることで、企画の成功イメージを強く印象付ける。
@@ -88,8 +89,8 @@
             <h1 class="text-xl font-bold text-[#8D7B68]">甲斐市シティプロモーション</h1>
             <div class="hidden md:flex space-x-8">
                 <a href="#background" class="text-gray-600 hover:text-[#A4907C] transition-colors">提案背景</a>
+                <a href="#talent" class="text-gray-600 hover:text-[#A4907C] transition-colors">起用タレント</a>
                 <a href="#plan" class="text-gray-600 hover:text-[#A4907C] transition-colors">企画内容</a>
-                <a href="#contents" class="text-gray-600 hover:text-[#A4907C] transition-colors">コンテンツイメージ</a>
                 <a href="#impact" class="text-gray-600 hover:text-[#A4907C] transition-colors">期待される効果</a>
             </div>
         </nav>
@@ -131,7 +132,47 @@
             </div>
         </section>
 
-        <section id="plan" class="py-16 md:py-24">
+        <section id="talent" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl md:text-3xl font-bold text-[#A4907C] mb-4">起用タレントのご紹介</h3>
+                    <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
+                        本企画のメインタレントとして、情報発信力と親しみやすいキャラクターで若者から絶大な支持を得る湯上響花さんを起用します。
+                    </p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <img src="https://placehold.co/400x500/EAE3D9/4A4A4A?text=Yugami+Kyoka" alt="湯上響花" class="rounded-lg w-full">
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-[#8D7B68]">湯上 響花 <span class="text-lg font-normal">(Yugami Kyoka)</span></h4>
+                        <p class="text-sm text-gray-500 mb-4">『所さんの目がテン！』出演中！、YBSラジオZα解体新書メインMC　</p>
+                        <div class="space-y-2 text-sm mb-6">
+                            <p><strong>生年月日:</strong> 2001年4月12日 (23歳)</p>
+                            <p><strong>出身:</strong> 千葉県</p>
+                            <p><strong>特長:</strong> 元Popteenモデルで、中央大学卒。情報番組のコメンテーターとしても活躍し、知的な発信力とギャルマインドを併せ持つZ世代のオピニオンリーダー。</p>
+                            <p><strong>親和性:</strong> 彼女の「ギャル」という親しみやすいキャラクターが、甲斐市の温かい日常と掛け合わさることで生まれる「ギャップ」が、視聴者の強い興味を引きつけます。</p>
+                        </div>
+                        <div class="flex space-x-4">
+                            <div class="text-center">
+                                <p class="font-bold text-xl text-[#A4907C]">4万</p>
+                                <p class="text-xs text-gray-600">Instagram</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-xl text-[#A4907C]">8万</p>
+                                <p class="text-xs text-gray-600">TikTok</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-xl text-[#A4907C]">3万</p>
+                                <p class="text-xs text-gray-600">YouTube</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="plan" class="py-16 md:py-24 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h3 class="text-2xl md:text-3xl font-bold text-[#A4907C] mb-4">甲斐の古民家から始まる、3つのステップ</h3>
@@ -153,7 +194,7 @@
             </div>
         </section>
 
-        <section id="contents" class="py-16 md:py-24 bg-white">
+        <section id="contents" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h3 class="text-2xl md:text-3xl font-bold text-[#A4907C] mb-4">どんな「日常」を届けるのか？</h3>
@@ -196,7 +237,7 @@
             </div>
         </section>
 
-        <section id="impact" class="py-16 md:py-24">
+        <section id="impact" class="py-16 md:py-24 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h3 class="text-2xl md:text-3xl font-bold text-[#A4907C] mb-4">期待される効果</h3>
@@ -242,7 +283,7 @@
         const tabData = {
             '1': {
                 title: '第1段階：日常の共有（トライアル投稿案）',
-                purpose: '甲斐市の観光資源（自然・飲食・体験）を、湯上響花の「ギャル」キャラクターを通じて魅力的に発信し、SNSでの拡散を狙います。動画映え・ギャップ・エンタメ性を重視したInstagramリールを2本制作します。',
+                purpose: 'メインタレントの湯上響花さんとゲスト1名で、甲斐市の魅力を「ギャル」キャラクターを通じて発信。SNSでの拡散を狙います。動画映え・ギャップ・エンタメ性を重視したInstagramリールを2本制作します。',
                 htmlContent: `
                     <div class="grid md:grid-cols-2 gap-6 mt-6 text-left proposal-card-inner">
                         <div class="border border-gray-200 p-4 rounded-lg">
@@ -283,14 +324,14 @@
                 details: [
                     { label: '時期', value: '2025年11月（想定）' },
                     { label: '場所', value: '東京都内 甲斐市PRイベント' },
-                    { label: '内容', value: 'タレントによるトークショー。古民家生活で感じたリアルな魅力を語ります。' }
+                    { label: '内容', value: '湯上響花さん、ゲストタレントが登壇し、甲斐市の魅力を語ります。' }
                 ]
             },
             '3': {
                 title: '第3段階：関係の深化（年間発信）',
-                purpose: '甲斐市Instagramアカウントの本格的なグロースと、継続的な発信による「関係人口」のファン化を目指します。',
+                purpose: '湯上響花さんをメインに、年間を通じて多彩なゲストを迎えながら、甲斐市Instagramアカウントの本格的なグロースと「関係人口」のファン化を目指します。',
                 details: [
-                    { label: 'タレント', value: '湯上響花 + 複数のゲストタレント' },
+                    { label: 'タレント', value: 'メイン：湯上響花 + 複数のゲストタレント' },
                     { label: '発信内容', value: '年間10本のInstagramリール動画（共同投稿）' },
                     { label: 'ご予算', value: '5,000,000円（税別）' }
                 ],
@@ -449,3 +490,4 @@
     </script>
 </body>
 </html>
+
